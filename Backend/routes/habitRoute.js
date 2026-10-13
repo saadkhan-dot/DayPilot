@@ -1,0 +1,10 @@
+const express = require('express');
+const controller = require('../controllers/habitcontroller');
+const router = express.Router();
+const asyncRoute = (fn) => (req, res, next) => Promise.resolve(fn(req, res)).catch(next);
+router.post('/api/habits', asyncRoute(controller.createHabit));
+router.get('/api/habits', asyncRoute(controller.listHabits));
+router.patch('/api/habits/:id', asyncRoute(controller.updateHabit));
+router.put('/api/habits/:id/completions/:date', asyncRoute(controller.completeHabit));
+router.get('/api/habits/:id/completions', asyncRoute(controller.completionHistory));
+module.exports = router;
